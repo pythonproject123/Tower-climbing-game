@@ -6,14 +6,14 @@ import pygame
 
 class Level:
     world_shift = 0
-    level_limit = -1000
+    level_limit = 0
 
     def __init__(self, player):
-        #self.background = pygame.image.load(filename).convert()
+        self.background = None
         self.enemy_list = pygame.sprite.Group()
         self.platform_list = pygame.sprite.Group()
         self.player = player
-        #self.hardmode = hardmode
+        self.hardmode = False
 
     def getEnemies(self):
         return self.enemy_list
@@ -28,7 +28,7 @@ class Level:
         return self.hardmode
 
     def draw(self, screen):
-        screen.fill(0, 0, 255)
+        screen.fill((0, 0, 255))
         screen.blit(self.background, (self.world_shift // 3, 0))
         self.platform_list.draw(screen)
         self.enemy_list.draw(screen)
@@ -49,9 +49,9 @@ class Level:
 class LevelOne(Level):
     def __init__(self, player):
         Level.__init__(self, player)
-        hardmode = False
+        self.hardmode = False
         maxCoins = 10
-        if hardmode:
+        if self.hardmode:
             coinsNeeded = 7
         else:
             coinsNeeded = 5
@@ -59,8 +59,7 @@ class LevelOne(Level):
             self.enemy_list.append(BasicEnemy())'''
 
         self.background = pygame.image.load("level1.png").convert()
-        black = pygame.Color(255, 255, 255)
-        self.background.set_colorkey(black)
+        self.background.set_colorkey((255, 255, 255))
         self.level_limit = -2500
 
         level = [[GRASS_LEFT, 500, 500],
