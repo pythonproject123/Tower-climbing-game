@@ -1,18 +1,19 @@
 from Enemy import *
 import Player
 from Platform import *
+import pygame
 
 
 class Level:
     world_shift = 0
     level_limit = -1000
 
-    def __init__(self, filename, player, hardmode=False):
-        self.background = pygame.image.load(filename).convert()
+    def __init__(self, player):
+        #self.background = pygame.image.load(filename).convert()
         self.enemy_list = pygame.sprite.Group()
         self.platform_list = pygame.sprite.Group()
         self.player = player
-        self.hardmode = hardmode
+        #self.hardmode = hardmode
 
     def getEnemies(self):
         return self.enemy_list
@@ -26,7 +27,7 @@ class Level:
     def isHardMode(self):
         return self.hardmode
 
-    def paint(self, screen):
+    def draw(self, screen):
         screen.fill(0, 0, 255)
         screen.blit(self.background, (self.world_shift // 3, 0))
         self.platform_list.draw(screen)
@@ -46,35 +47,37 @@ class Level:
 
 
 class LevelOne(Level):
-    def __init__(self, filename, player, hardmode):
-        Level.__init__(self, filename, player, hardmode)
+    def __init__(self, player):
+        Level.__init__(self, player)
+        hardmode = False
         maxCoins = 10
         if hardmode:
             coinsNeeded = 7
         else:
             coinsNeeded = 5
-        for i in range(0, 5):
-            self.enemy_list.append(BasicEnemy())
+        '''for i in range(0, 5):
+            self.enemy_list.append(BasicEnemy())'''
 
         self.background = pygame.image.load("level1.png").convert()
-        self.background.set_colorkey(255, 255, 255)
+        black = pygame.Color(255, 255, 255)
+        self.background.set_colorkey(black)
         self.level_limit = -2500
 
-        level = [[Platform.GRASS_LEFT, 500, 500],
-                 [Platform.GRASS_MIDDLE, 570, 500],
-                 [Platform.GRASS_RIGHT, 640, 500],
-                 [Platform.GRASS_LEFT, 800, 400],
-                 [Platform.GRASS_MIDDLE, 870, 400],
-                 [Platform.GRASS_RIGHT, 940, 400],
-                 [Platform.GRASS_LEFT, 1000, 500],
-                 [Platform.GRASS_MIDDLE, 1070, 500],
-                 [Platform.GRASS_RIGHT, 1140, 500],
-                 [Platform.STONE_PLATFORM_LEFT, 1120, 280],
-                 [Platform.STONE_PLATFORM_MIDDLE, 1190, 280],
-                 [Platform.STONE_PLATFORM_RIGHT, 1260, 280]]
+        level = [[GRASS_LEFT, 500, 500],
+                 [GRASS_MIDDLE, 570, 500],
+                 [GRASS_RIGHT, 640, 500],
+                 [GRASS_LEFT, 800, 400],
+                 [GRASS_MIDDLE, 870, 400],
+                 [GRASS_RIGHT, 940, 400],
+                 [GRASS_LEFT, 1000, 500],
+                 [GRASS_MIDDLE, 1070, 500],
+                 [GRASS_RIGHT, 1140, 500],
+                 [STONE_PLATFORM_LEFT, 1120, 280],
+                 [STONE_PLATFORM_MIDDLE, 1190, 280],
+                 [STONE_PLATFORM_RIGHT, 1260, 280]]
 
         for platform in level:
-            block = Platform.Platform(platform[0])
+            block = Platform(platform[0])
             block.rect.x = platform[1]
             block.rect.y = platform[2]
             block.player = self.player

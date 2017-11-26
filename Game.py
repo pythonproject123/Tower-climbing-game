@@ -81,7 +81,7 @@ def main():
                 player.level = current_level
 
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
-        current_level.paint(screen)
+        current_level.draw(screen)
         active_sprite_list.draw(screen)
 
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
