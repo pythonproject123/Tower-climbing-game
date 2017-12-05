@@ -18,6 +18,7 @@ class Player(pygame.sprite.Sprite):
         self.name = name
         self.health = 3
         self.coins = 0
+        self.alive = True
 
         sprite_sheet = SpriteSheet("p1_walk.png")
         # Load all the right facing images into a list
@@ -89,6 +90,16 @@ class Player(pygame.sprite.Sprite):
                 # Otherwise if we are moving left, do the opposite.
                 self.rect.left = block.rect.right
 
+        # Hit an enemy
+        hit = pygame.sprite.spritecollide(self, self.level.enemy_list, True)
+
+        #Report hit to game
+        if len(hit) > 0:
+            self.hit(3)
+            if not self.alive:
+                self.kill()
+                return
+
         # Move up/down
         self.rect.y += self.change_y
 
@@ -142,6 +153,8 @@ class Player(pygame.sprite.Sprite):
 
     def hit(self, damage):
         self.health -= damage
+        if self.health <= 0:
+            self.alive = False
 
     def collectCoin(self):
         self.coins += 1

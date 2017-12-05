@@ -1,6 +1,7 @@
 from Enemy import *
 import Player
 from Platform import *
+from Enemy_Sprite import *
 import pygame
 
 
@@ -55,8 +56,6 @@ class LevelOne(Level):
             coinsNeeded = 7
         else:
             coinsNeeded = 5
-        '''for i in range(0, 5):
-            self.enemy_list.append(BasicEnemy())'''
 
         self.background = pygame.image.load("level1.png").convert()
         self.background.set_colorkey((255, 255, 255))
@@ -74,6 +73,18 @@ class LevelOne(Level):
                  [STONE_PLATFORM_LEFT, 1120, 280],
                  [STONE_PLATFORM_MIDDLE, 1190, 280],
                  [STONE_PLATFORM_RIGHT, 1260, 280]]
+
+        enemies = [[BASIC_ENEMY, 600, 420],
+                   [BASIC_ENEMY, 750, 500],
+                   [BASIC_ENEMY, 1000, 420],
+                   [BASIC_ENEMY, 1200, 500]]
+
+        for enemy in enemies:
+            basic = BasicEnemy()
+            en = Enemy_Sprite(enemy[0], basic)
+            en.rect.x = enemy[1]
+            en.rect.y = enemy[2]
+            self.enemy_list.add(en)
 
         for platform in level:
             block = Platform(platform[0])

@@ -1,5 +1,6 @@
 from Player import *
 import level
+import time
 
 
 def main():
@@ -41,6 +42,16 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True  # Flag that we are done so we exit this loop
+            if not player.alive:
+                pygame.font.init()
+                font = pygame.font.SysFont('Comic Sans MS', 30)
+                textSurf = font.render('Game Over!', True, (0, 0, 0))
+                textRect = textSurf.get_rect()
+                textRect.center = (400, 300)
+                screen.blit(textSurf, textRect)
+                pygame.display.update()
+                time.sleep(2)
+                done = True
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
