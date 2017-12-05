@@ -1,7 +1,9 @@
 from SpriteSheets import *
 
+
 # Abstract class - do not instantiate
 class Enemy(pygame.sprite.Sprite):
+
     def __init__(self, type, damage):
         self.type = type
         self.damage = damage

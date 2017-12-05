@@ -105,3 +105,14 @@ class LevelOne(Level):
             block.rect.y = platform[2]
             block.player = self.player
             self.platform_list.add(block)
+
+        # Add a custom moving platform
+        block = MovingPlatform((648, 648, 70, 40))
+        block.rect.x = 1350
+        block.rect.y = 280
+        block.boundary_left = 1350
+        block.boundary_right = 1600
+        block.change_x = 1
+        block.player = self.player
+        block.level = self
+        self.platform_list.add(block)
