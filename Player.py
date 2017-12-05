@@ -95,7 +95,9 @@ class Player(pygame.sprite.Sprite):
 
         #Report hit to game
         if len(hit) > 0:
-            self.hit(3)
+            self.hit(1)
+            sp = self.level.health_bar.sprites()
+            sp[len(sp) - 1].kill()
             if not self.alive:
                 self.kill()
                 return
@@ -153,7 +155,7 @@ class Player(pygame.sprite.Sprite):
 
     def hit(self, damage):
         self.health -= damage
-        if self.health <= 0:
+        if self.getHealth() <= 0:
             self.alive = False
 
     def collectCoin(self):

@@ -2,6 +2,7 @@ from Enemy import *
 import Player
 from Platform import *
 from Enemy_Sprite import *
+from Heart_Sprites import *
 import pygame
 
 
@@ -13,6 +14,7 @@ class Level:
         self.background = None
         self.enemy_list = pygame.sprite.Group()
         self.platform_list = pygame.sprite.Group()
+        self.health_bar = pygame.sprite.Group()
         self.player = player
         self.hardmode = False
 
@@ -33,6 +35,7 @@ class Level:
         screen.blit(self.background, (self.world_shift // 3, 0))
         self.platform_list.draw(screen)
         self.enemy_list.draw(screen)
+        self.health_bar.draw(screen)
 
     def update(self):
         self.platform_list.update()
@@ -78,6 +81,16 @@ class LevelOne(Level):
                    [BASIC_ENEMY, 750, 500],
                    [BASIC_ENEMY, 1000, 420],
                    [BASIC_ENEMY, 1200, 500]]
+
+        hearts = [[LITTLE_HEART, 0, 0],
+                  [LITTLE_HEART, 60, 0],
+                  [LITTLE_HEART, 120, 0]]
+        for heart in hearts:
+            h = Heart_Sprite(heart[0])
+            h.rect.x = heart[1]
+            h.rect.y = heart[2]
+            h.player = self.player
+            self.health_bar.add(h)
 
         for enemy in enemies:
             basic = BasicEnemy()
