@@ -3,6 +3,7 @@ import Player
 from Platform import *
 from Enemy_Sprite import *
 from Heart_Sprites import *
+from Coin_Sprite import *
 import pygame
 
 
@@ -15,6 +16,8 @@ class Level:
         self.enemy_list = pygame.sprite.Group()
         self.platform_list = pygame.sprite.Group()
         self.health_bar = pygame.sprite.Group()
+        self.coins = pygame.sprite.Group()
+        self.coins_needed = pygame.sprite.Group()
         self.player = player
         self.hardmode = False
 
@@ -36,10 +39,13 @@ class Level:
         self.platform_list.draw(screen)
         self.enemy_list.draw(screen)
         self.health_bar.draw(screen)
+        self.coins.draw(screen)
+        self.coins_needed.draw(screen)
 
     def update(self):
         self.platform_list.update()
         self.enemy_list.update()
+        self.coins.update()
 
     def shift_world(self, shift_x):
         self.world_shift += shift_x
@@ -49,6 +55,9 @@ class Level:
         for enemy in self.enemy_list:
             enemy.rect.x += shift_x
 
+        for coin in self.coins:
+            coin.rect.x += shift_x
+
 
 class LevelOne(Level):
     def __init__(self, player):
@@ -56,9 +65,9 @@ class LevelOne(Level):
         self.hardmode = False
         maxCoins = 10
         if self.hardmode:
-            coinsNeeded = 7
-        else:
             coinsNeeded = 5
+        else:
+            coinsNeeded = 3
 
         self.background = pygame.image.load("level1.png").convert()
         self.background.set_colorkey((255, 255, 255))
@@ -79,22 +88,55 @@ class LevelOne(Level):
 
         enemies = [[BASIC_ENEMY, 600, 420],
                    [BASIC_ENEMY, 750, 500],
-                   [BASIC_ENEMY, 1000, 420],
-                   [BASIC_ENEMY, 1200, 500]]
+                   [BOMB, 1000, 420],
+                   [BOMB, 1200, 500]]
 
-        hearts = [[LITTLE_HEART, 0, 0],
-                  [LITTLE_HEART, 60, 0],
-                  [LITTLE_HEART, 120, 0]]
+        lv_coins = [[COIN, 500, 420],
+                    [COIN, 750, 300],
+                    [COIN, 1200, 200],
+                    [COIN, 1025, 350],
+                    [COIN, 1220, 450]]
+
+        coins_need = []
+        for i in range(0, coinsNeeded):
+            coins_need.append([COIN, (60*i), 60])
+
+        hearts = []
+        if self.isHardMode():
+            for i in range(0, 1):
+                hearts.append([LITTLE_HEART, (60 * i), 0])
+        else:
+            for i in range(0, 3):
+                hearts.append([LITTLE_HEART, (60 * i), 0])
+
+        for coin in lv_coins:
+            c = Coin_Sprite(coin[0])
+            c.rect.x = coin[1]
+            c.rect.y = coin[2]
+            self.coins.add(c)
+
         for heart in hearts:
             h = Heart_Sprite(heart[0])
             h.rect.x = heart[1]
             h.rect.y = heart[2]
-            h.player = self.player
             self.health_bar.add(h)
 
+        for coin in coins_need:
+            c = Coin_Sprite(coin[0])
+            c.rect.x = coin[1]
+            c.rect.y = coin[2]
+            self.coins_needed.add(c)
+
         for enemy in enemies:
-            basic = BasicEnemy()
-            en = Enemy_Sprite(enemy[0], basic)
+            if enemy[0] == BASIC_ENEMY:
+                type = BasicEnemy()
+            elif enemy[0] == SHOOTING_ENEMY:
+                type = ShootingEnemy()
+            elif enemy[0] == BOSS_ENEMY:
+                type = BossEnemy()
+            elif enemy[0] == BOMB:
+                type = Bomb()
+            en = Enemy_Sprite(enemy[0], type)
             en.rect.x = enemy[1]
             en.rect.y = enemy[2]
             self.enemy_list.add(en)
@@ -105,14 +147,3 @@ class LevelOne(Level):
             block.rect.y = platform[2]
             block.player = self.player
             self.platform_list.add(block)
-
-        # Add a custom moving platform
-        block = MovingPlatform((648, 648, 70, 40))
-        block.rect.x = 1350
-        block.rect.y = 280
-        block.boundary_left = 1350
-        block.boundary_right = 1600
-        block.change_x = 1
-        block.player = self.player
-        block.level = self
-        self.platform_list.add(block)

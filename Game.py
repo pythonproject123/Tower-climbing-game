@@ -53,6 +53,17 @@ def main():
                 time.sleep(2)
                 done = True
 
+            if  player.won:
+                pygame.font.init()
+                font = pygame.font.SysFont('Comic Sans MS', 30)
+                textSurf = font.render('Well Done!', True, (0, 0, 0))
+                textRect = textSurf.get_rect()
+                textRect.center = (400, 300)
+                screen.blit(textSurf, textRect)
+                pygame.display.update()
+                time.sleep(2)
+                done = True
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     player.go_left()
@@ -94,7 +105,6 @@ def main():
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
         active_sprite_list.draw(screen)
-
         # ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
         # Limit to 60 frames per second

@@ -4,7 +4,7 @@ from SpriteSheets import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self, name):
-        super().__init__()
+        pygame.sprite.Sprite.__init__(self)
         self.change_x = 0
         self.change_y = 0
         self.walking_frames_l = []
@@ -19,6 +19,7 @@ class Player(pygame.sprite.Sprite):
         self.health = 3
         self.coins = 0
         self.alive = True
+        self.won = False
 
         sprite_sheet = SpriteSheet("p1_walk.png")
         # Load all the right facing images into a list
@@ -95,12 +96,22 @@ class Player(pygame.sprite.Sprite):
 
         #Report hit to game
         if len(hit) > 0:
-            self.hit(1)
-            sp = self.level.health_bar.sprites()
-            sp[len(sp) - 1].kill()
-            if not self.alive:
-                self.kill()
-                return
+            #Detect if the player jumped on the enemy's head
+            if (hit[0].getType().getType() == "Bomb") or (not (self.rect.bottom <= hit[0].rect.top) and (self.rect.bottom >= hit[0].rect.top + 4)):
+                self.hit(hit[0].getType().getDamage())
+                sp = self.level.health_bar.sprites()
+                sp[len(sp) - 1].kill()
+                if not self.alive:
+                    self.kill()
+                    return
+
+        #Collect a coin
+        if len(pygame.sprite.spritecollide(self, self.level.coins, True)) > 0:
+            self.collectCoin()
+            redC = self.level.coins_needed.sprites()
+            redC[len(redC) - 1].kill()
+            if len(self.level.coins_needed.sprites()) == 0:
+                self.won = True
 
         # Move up/down
         self.rect.y += self.change_y

@@ -12,7 +12,6 @@ class Heart_Sprite(pygame.sprite.Sprite):
 
     def __init__(self, sprite_location):
         pygame.sprite.Sprite.__init__(self)
-        self.type = type
         sprite_sheet = SpriteSheet('healthHeart.png')
         self.image = sprite_sheet.get_image(sprite_location[0], sprite_location[1],
                                             sprite_location[2], sprite_location[3])
