@@ -139,7 +139,7 @@ class LevelOne(Level):
                  [STONE_PLATFORM_MIDDLE, 1190, 280],
                  [STONE_PLATFORM_RIGHT, 1260, 280]]
 
-        enemies = [[SHOOTING_ENEMY, 600, 420],
+        enemies = [[BASIC_ENEMY, 600, 420],
                    [BASIC_ENEMY, 750, 500],
                    [BOMB, 1000, 420],
                    [BOMB, 1200, 500]]
