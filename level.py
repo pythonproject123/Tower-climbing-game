@@ -22,6 +22,7 @@ class Level:
         self.coins_needed = pygame.sprite.Group()
         self.player = player
         self.hardmode = False
+        self.coinsNeeded
 
     def getEnemies(self):
         return self.enemy_list
@@ -34,6 +35,10 @@ class Level:
 
     def isHardMode(self):
         return self.hardmode
+
+    # Define number of coins needed to win
+    def coinsNeeded(self, num):
+        self.coinsNeeded = num
 
     def draw(self, screen):
         screen.fill((0, 0, 255))
@@ -90,14 +95,31 @@ class Level:
             c.rect.y = coin[2]
             self.coins.add(c)
 
-    def addHearts(self, hearts):
+    def addHearts(self):
+        hearts = []
+        if self.isHardMode():
+            for i in range(0, 1):
+                hearts.append([LITTLE_HEART, (60 * i), 0])
+        else:
+            for i in range(0, 3):
+                hearts.append([LITTLE_HEART, (60 * i), 0])
+
         for heart in hearts:
             h = Heart_Sprite(heart[0])
             h.rect.x = heart[1]
             h.rect.y = heart[2]
             self.health_bar.add(h)
 
-    def addCoinsNeeded(self, coins_need):
+    def addCoinsNeeded(self):
+        coins_need = []
+        for i in range(0, self.coinsNeeded):
+            if i < 5:
+                coins_need.append([COIN, (60 * i), 60])
+            elif i >= 5 and i < 10:
+                coins_need.append([COIN, (60 * (i-5)), 120])
+            else:
+                coins_need.append([COIN, (60 * (i-10)), 180])
+
         for coin in coins_need:
             c = Coin_Sprite(coin[0])
             c.rect.x = coin[1]
@@ -116,11 +138,11 @@ class Level:
 class LevelOne(Level):
     def __init__(self, player):
         Level.__init__(self, player)
-        self.hardmode = False
-        if self.hardmode:
-            coinsNeeded = 5
+        Level.hardmode = False
+        if self.isHardMode():
+            self.coinsNeeded(5)
         else:
-            coinsNeeded = 3
+            self.coinsNeeded(3)
 
         self.background = pygame.image.load("level1.png").convert()
         self.background.set_colorkey((255, 255, 255))
@@ -150,22 +172,10 @@ class LevelOne(Level):
                     [COIN, 1025, 350],
                     [COIN, 1220, 450]]
 
-        coins_need = []
-        for i in range(0, coinsNeeded):
-            coins_need.append([COIN, (60*i), 60])
-
-        hearts = []
-        if self.isHardMode():
-            for i in range(0, 1):
-                hearts.append([LITTLE_HEART, (60 * i), 0])
-        else:
-            for i in range(0, 3):
-                hearts.append([LITTLE_HEART, (60 * i), 0])
-
         self.addEnemies(enemies)
         self.addCoins(lv_coins)
-        self.addCoinsNeeded(coins_need)
-        self.addHearts(hearts)
+        self.addCoinsNeeded()
+        self.addHearts()
         self.addPlatforms(platforms)
 
         # Add a custom moving platform
