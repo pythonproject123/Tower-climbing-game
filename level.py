@@ -6,6 +6,8 @@ from Heart_Sprites import *
 from Coin_Sprite import *
 import pygame
 
+from Projectile_Sprite import *
+
 
 class Level:
     world_shift = 0
@@ -58,12 +60,63 @@ class Level:
         for coin in self.coins:
             coin.rect.x += shift_x
 
+    def addEnemies(self, enemies):
+        for enemy in enemies:
+            if enemy[0] == BASIC_ENEMY:
+                type = BasicEnemy()
+            elif enemy[0] == SHOOTING_ENEMY:
+                type = ShootingEnemy("L")
+                p = Projectile_Sprite(PROJECTILE)
+                if type.getDirection() == "R":
+                    p.rect.x = enemy[1] + 30
+                else:
+                    p.rect.x = enemy[1] - 30
+                p.rect.y = enemy[2] + 55
+                self.enemy_list.add(p)
+            elif enemy[0] == BOSS_ENEMY:
+                type = BossEnemy()
+            elif enemy[0] == BOMB:
+                type = Bomb()
+            en = Enemy_Sprite(enemy[0], type)
+
+            en.rect.x = enemy[1]
+            en.rect.y = enemy[2]
+            self.enemy_list.add(en)
+
+    def addCoins(self, lv_coins):
+        for coin in lv_coins:
+            c = Coin_Sprite(coin[0])
+            c.rect.x = coin[1]
+            c.rect.y = coin[2]
+            self.coins.add(c)
+
+    def addHearts(self, hearts):
+        for heart in hearts:
+            h = Heart_Sprite(heart[0])
+            h.rect.x = heart[1]
+            h.rect.y = heart[2]
+            self.health_bar.add(h)
+
+    def addCoinsNeeded(self, coins_need):
+        for coin in coins_need:
+            c = Coin_Sprite(coin[0])
+            c.rect.x = coin[1]
+            c.rect.y = coin[2]
+            self.coins_needed.add(c)
+
+    def addPlatforms(self, platforms):
+        for platform in platforms:
+            block = Platform(platform[0])
+            block.rect.x = platform[1]
+            block.rect.y = platform[2]
+            block.player = self.player
+            self.platform_list.add(block)
+
 
 class LevelOne(Level):
     def __init__(self, player):
         Level.__init__(self, player)
         self.hardmode = False
-        maxCoins = 10
         if self.hardmode:
             coinsNeeded = 5
         else:
@@ -73,7 +126,7 @@ class LevelOne(Level):
         self.background.set_colorkey((255, 255, 255))
         self.level_limit = -2500
 
-        level = [[GRASS_LEFT, 500, 500],
+        platforms = [[GRASS_LEFT, 500, 500],
                  [GRASS_MIDDLE, 570, 500],
                  [GRASS_RIGHT, 640, 500],
                  [GRASS_LEFT, 800, 400],
@@ -86,7 +139,7 @@ class LevelOne(Level):
                  [STONE_PLATFORM_MIDDLE, 1190, 280],
                  [STONE_PLATFORM_RIGHT, 1260, 280]]
 
-        enemies = [[BASIC_ENEMY, 600, 420],
+        enemies = [[SHOOTING_ENEMY, 600, 420],
                    [BASIC_ENEMY, 750, 500],
                    [BOMB, 1000, 420],
                    [BOMB, 1200, 500]]
@@ -109,45 +162,11 @@ class LevelOne(Level):
             for i in range(0, 3):
                 hearts.append([LITTLE_HEART, (60 * i), 0])
 
-        for coin in lv_coins:
-            c = Coin_Sprite(coin[0])
-            c.rect.x = coin[1]
-            c.rect.y = coin[2]
-            self.coins.add(c)
-
-        for heart in hearts:
-            h = Heart_Sprite(heart[0])
-            h.rect.x = heart[1]
-            h.rect.y = heart[2]
-            self.health_bar.add(h)
-
-        for coin in coins_need:
-            c = Coin_Sprite(coin[0])
-            c.rect.x = coin[1]
-            c.rect.y = coin[2]
-            self.coins_needed.add(c)
-
-        for enemy in enemies:
-            if enemy[0] == BASIC_ENEMY:
-                type = BasicEnemy()
-            elif enemy[0] == SHOOTING_ENEMY:
-                type = ShootingEnemy()
-            elif enemy[0] == BOSS_ENEMY:
-                type = BossEnemy()
-            elif enemy[0] == BOMB:
-                type = Bomb()
-            en = Enemy_Sprite(enemy[0], type)
-            en.rect.x = enemy[1]
-            en.rect.y = enemy[2]
-            self.enemy_list.add(en)
-
-        for platform in level:
-            block = Platform(platform[0])
-            block.rect.x = platform[1]
-            block.rect.y = platform[2]
-            block.player = self.player
-            self.platform_list.add(block)
-
+        self.addEnemies(enemies)
+        self.addCoins(lv_coins)
+        self.addCoinsNeeded(coins_need)
+        self.addHearts(hearts)
+        self.addPlatforms(platforms)
 
         # Add a custom moving platform
         block = MovingPlatform([648, 648, 70, 40])

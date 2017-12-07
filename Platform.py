@@ -19,6 +19,7 @@ class Platform(pygame.sprite.Sprite):
                                             sprite_location[2], sprite_location[3])
         self.rect = self.image.get_rect()
 
+
 class MovingPlatform(Platform):
 
     def __init__(self, sprite_sheet):

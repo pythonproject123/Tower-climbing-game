@@ -1,6 +1,6 @@
 from SpriteSheets import *
 
-#NAME = (x_coordinate, y_coordinate, width, height)
+# NAME = (x_coordinate, y_coordinate, width, height)
 COIN = (7.8, 13.5, 48.7, 56.3)
 
 

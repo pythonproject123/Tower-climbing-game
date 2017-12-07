@@ -1,4 +1,6 @@
 from SpriteSheets import *
+from Projectile_Sprite import *
+from Enemy_Sprite import *
 
 
 # Abstract class - do not instantiate
@@ -20,22 +22,23 @@ class BasicEnemy(Enemy):
     def __init__(self):
         Enemy.__init__(self, "Basic Enemy", 1)
 
+
 class ShootingEnemy(Enemy):
-    def __init__(self):
-        self.range = None
-        Enemy.__init__(self, "Shooting Enemy", 2)
-        self.range = 10  # Change once we figure out how to work out distances
+    def __init__(self, dir):
+        self.dir = dir
+        Enemy.__init__(self, "Shooting Enemy", 1)
 
+    def getDirection(self):
+        return dir
 
-    def getRange(self):
-        return self.range
 
 
 class BossEnemy(Enemy):
     def __init__(self):
         Enemy.__init__(self, "Boss Enemy", 3)
 
-#Cannot jump on this enemy's head to kill it
+
+# Cannot jump on this enemy's head to kill it
 class Bomb(Enemy):
     def __init__(self):
         Enemy.__init__(self, "Bomb", 1)

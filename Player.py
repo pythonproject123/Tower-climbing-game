@@ -94,10 +94,11 @@ class Player(pygame.sprite.Sprite):
         # Hit an enemy
         hit = pygame.sprite.spritecollide(self, self.level.enemy_list, True)
 
-        #Report hit to game
+        # Report hit to game
         if len(hit) > 0:
-            #Detect if the player jumped on the enemy's head
-            if (hit[0].getType().getType() == "Bomb") or (not (self.rect.bottom <= hit[0].rect.top) and (self.rect.bottom >= hit[0].rect.top + 4)):
+            # Detect if the player jumped on the enemy's head
+            if (hit[0].getType().getType() == "Bomb") or (not (
+                    self.rect.bottom <= hit[0].rect.top) and (self.rect.bottom >= hit[0].rect.top + 4)):
                 self.hit(hit[0].getType().getDamage())
                 sp = self.level.health_bar.sprites()
                 sp[len(sp) - 1].kill()
@@ -105,7 +106,7 @@ class Player(pygame.sprite.Sprite):
                     self.kill()
                     return
 
-        #Collect a coin
+        # Collect a coin
         if len(pygame.sprite.spritecollide(self, self.level.coins, True)) > 0:
             self.collectCoin()
             redC = self.level.coins_needed.sprites()

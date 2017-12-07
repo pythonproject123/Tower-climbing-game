@@ -16,6 +16,7 @@ class Enemy_Sprite(pygame.sprite.Sprite):
         sprite_sheet = SpriteSheet('enemies.png')
         self.image = sprite_sheet.get_image(sprite_location[0], sprite_location[1],
                                             sprite_location[2], sprite_location[3])
+        self.image = pygame.transform.flip(self.image, True, False)
         self.rect = self.image.get_rect()
 
     def getType(self):
