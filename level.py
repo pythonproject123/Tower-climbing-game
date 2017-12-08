@@ -157,7 +157,7 @@ class LevelOne(Level):
         if self.isHardMode():
             self.coinsNeeded(5)
         else:
-            self.coinsNeeded(1)
+            self.coinsNeeded(5)
 
         self.background = pygame.image.load("level1.png").convert()
         self.background.set_colorkey((255, 255, 255))
