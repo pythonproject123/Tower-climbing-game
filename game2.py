@@ -2,33 +2,35 @@ from Player import *
 import level
 import time
 
-black = (0,0,0)
-white = (255,255,255)
-red = (200,0,0)
-bright_red = (255,0,0)
-green = (0,200,0)
-bright_green = (0,255,0)
+black = (0, 0, 0)
+white = (255, 255, 255)
+red = (200, 0, 0)
+bright_red = (255, 0, 0)
+green = (0, 200, 0)
+bright_green = (0, 255, 0)
 display_width = 800
 display_height = 600
-screen = pygame.display.set_mode((display_width,display_height))
+screen = pygame.display.set_mode((display_width, display_height))
 
 
-def button(msg,x,y,w,h,ic,ac,action=None):
+def button(msg, x, y, w, h, ic, ac, action=None):
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     print(click)
-    if x+w > mouse[0] > x and y+h > mouse[1] > y:
-        pygame.draw.rect(screen, ac,(x,y,w,h))
+    if x + w > mouse[0] > x and y + h > mouse[1] > y:
+        pygame.draw.rect(screen, ac, (x, y, w, h))
 
         if click[0] == 1 and action != None:
             action()
     else:
-        pygame.draw.rect(gameDisplay, ic,(x,y,w,h))
+        pygame.draw.rect(screen, ic, (x, y, w, h))
 
-    smallText = pygame.font.SysFont("comicsansms",20)
+    pygame.font.init()
+    smallText = pygame.font.SysFont("comicsansms", 20)
     textSurf, textRect = text_objects(msg, smallText)
-    textRect.center = ( (x+(w/2)), (y+(h/2)) )
+    textRect.center = ((x + (w / 2)), (y + (h / 2)))
     screen.blit(textSurf, textRect)
+
 
 def game_intro():
     intro = True
@@ -40,7 +42,8 @@ def game_intro():
                 pygame.quit()
                 quit()
 
-        gameDisplay.fill(white)
+        screen.fill(white)
+        pygame.font.init()
         largeText = pygame.font.SysFont("comicsansms", 115)
         TextSurf, TextRect = text_objects("Time 2 play the game", largeText)
         TextRect.center = ((display_width / 2), (display_height / 2))
@@ -52,13 +55,16 @@ def game_intro():
         pygame.display.update()
         clock.tick(15)
 
+
 def quitgame():
     pygame.quit()
     quit()
 
-def text_objects(text,font):
+
+def text_objects(text, font):
     textSurface = font.render(text, True, black)
     return textSurface, textSurface.get_rect()
+
 
 def main():
     """ Main Program """
@@ -71,7 +77,7 @@ def main():
 
     # Create all the levels
     level_list = [level.LevelOne(player)]
-    #level_list.append(level.LevelTwo(player))
+    # level_list.append(level.LevelTwo(player))
 
     # Set the current level
     current_level_no = 0
@@ -161,5 +167,6 @@ def main():
     # on exit.
     pygame.quit()
 
+
 if __name__ == "__main__":
-    main()
+    game_intro()
