@@ -38,8 +38,7 @@ class Player(pygame.sprite.Sprite):
         image = sprite_sheet.get_image(0, 186, 70, 90)
         self.walking_frames_r.append(image)
 
-        # Load all the right facing images, then flip them
-        # to face left.
+        # Load all the right facing images, then flip them to face left.
         image = sprite_sheet.get_image(0, 0, 66, 90)
         image = pygame.transform.flip(image, True, False)
         self.walking_frames_l.append(image)
@@ -102,14 +101,12 @@ class Player(pygame.sprite.Sprite):
             elif (hit[0].getType().getType() == "Bomb") or (not (
                     self.rect.bottom <= hit[0].rect.top) and (self.rect.bottom >= hit[0].rect.top + 4)):
                 dam = self.hit(hit[0].getType().getDamage())
-                for i in range(1, dam+1):
-                    sp = self.level.health_bar.sprites()
-                    sp[len(sp) - 1].kill()
                 if not self.alive:
                     self.kill()
                     return
-
-
+                for i in range(1, dam+1):
+                    sp = self.level.health_bar.sprites()
+                    sp[len(sp) - 1].kill()
 
         # Collect a coin
         if len(pygame.sprite.spritecollide(self, self.level.coins, True)) > 0:
@@ -186,7 +183,9 @@ class Player(pygame.sprite.Sprite):
 
     def getHealth(self):
         return self.health
+
     def getCoins(self):
         return self.coins
+
     def getName(self):
         return self.name

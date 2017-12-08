@@ -3,7 +3,7 @@
 
 from SpriteSheets import *
 
-#NAME = (x_coordinate, y_coordinate, width, height)
+# NAME = (x_coordinate, y_coordinate, width, height)
 LITTLE_HEART = (262, 267, 51, 48)
 BIG_HEART = (419, 238, 111, 115)
 

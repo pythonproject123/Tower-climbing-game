@@ -18,7 +18,7 @@ class Projectile_Sprite(pygame.sprite.Sprite):
         self.image = pygame.transform.scale2x(self.image)
         self.rect = self.image.get_rect()
 
-        self.change_x = 1
+        self.change_x = 5
         self.origPos = 0
 
         self.player = None

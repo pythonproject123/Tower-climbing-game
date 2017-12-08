@@ -32,6 +32,7 @@ class ShootingEnemy(Enemy):
     def getDirection(self):
         return self.dir
 
+
 class BossEnemy(Enemy):
     def __init__(self):
         Enemy.__init__(self, "Boss Enemy", 3)
