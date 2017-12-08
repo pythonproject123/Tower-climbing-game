@@ -70,19 +70,29 @@ class Level:
             if enemy[0] == BASIC_ENEMY:
                 type = BasicEnemy()
             elif enemy[0] == SHOOTING_ENEMY:
-                type = ShootingEnemy("L")
-                p = Projectile_Sprite(PROJECTILE)
-                if type.getDirection() == "R":
-                    p.rect.x = enemy[1] + 30
-                else:
+                type = ShootingEnemy()
+
+                p = Projectile_Sprite(PROJECTILE, type)
+                if type.getDirection() == "L":
                     p.rect.x = enemy[1] - 30
+                    p.boundary = p.rect.y - 20
+                else:
+                    p.rect.x = enemy[1] + 50
+                    p.boundary = p.rect.y + 20
+                p.origPos = p.rect.x
                 p.rect.y = enemy[2] + 55
+                p.player = self.player
+                p.level = self
                 self.enemy_list.add(p)
+
             elif enemy[0] == BOSS_ENEMY:
                 type = BossEnemy()
             elif enemy[0] == BOMB:
                 type = Bomb()
+
             en = Enemy_Sprite(enemy[0], type)
+            if len(enemy) > 3 and enemy[3] == "R":
+                en.image = pygame.transform.flip(en.image, True, False)
 
             en.rect.x = enemy[1]
             en.rect.y = enemy[2]
@@ -161,8 +171,8 @@ class LevelOne(Level):
                  [STONE_PLATFORM_MIDDLE, 1190, 280],
                  [STONE_PLATFORM_RIGHT, 1260, 280]]
 
-        enemies = [[BASIC_ENEMY, 600, 420],
-                   [BASIC_ENEMY, 750, 500],
+        enemies = [[BASIC_ENEMY, 600, 420],      # Add optional "R" or "L" argument to change facing direction.
+                   [BASIC_ENEMY, 750, 500],      # Defaults to left-facing
                    [BOMB, 1000, 420],
                    [BOMB, 1200, 500]]
 

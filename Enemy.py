@@ -24,14 +24,13 @@ class BasicEnemy(Enemy):
 
 
 class ShootingEnemy(Enemy):
-    def __init__(self, dir):
+    # Change dir to have the enemy facing right instead. Defaults to left.
+    def __init__(self, proj = None, dir="L"):
         self.dir = dir
         Enemy.__init__(self, "Shooting Enemy", 1)
 
     def getDirection(self):
-        return dir
-
-
+        return self.dir
 
 class BossEnemy(Enemy):
     def __init__(self):

@@ -1,7 +1,7 @@
 #Source for enemies image - https://dribbble.com/shots/1819732-Evil-flying-monster-sprite-sheets
 from SpriteSheets import *
 
-#ENEMY_NAME = (x_coordinate, y_coordinate, width, height)
+#ENEMY_NAME = (x_coordinate, y_coordinate, width, height, facing_direction)
 BASIC_ENEMY = (124, 138, 76, 90)
 SHOOTING_ENEMY = (249, 23, 107, 87)
 BOSS_ENEMY = (241, 145, 79, 76)

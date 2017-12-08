@@ -97,13 +97,7 @@ class Player(pygame.sprite.Sprite):
         # Report hit to game
         if len(hit) > 0:
             if hit[0].getType() == "Projectile":
-                self.hit(2)
-                for i in range(1, 3):
-                    sp = self.level.health_bar.sprites()
-                    sp[len(sp) - 1].kill()
-                if not self.alive:
-                    self.kill()
-                    return
+                pass
             # Detect if the player jumped on the enemy's head
             elif (hit[0].getType().getType() == "Bomb") or (not (
                     self.rect.bottom <= hit[0].rect.top) and (self.rect.bottom >= hit[0].rect.top + 4)):
