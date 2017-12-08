@@ -4,28 +4,19 @@ conn = sqlite3.connect('game.db')
 
 c = conn.cursor()
 
-def addUser(userName,lives = 0,level = 0, currentScore = 0):
+def addUser(userName,lives = 3,level = 1):
     with conn:
-        c.execute("INSERT INTO player VALUES(?, ?, ?, ?)",(userName,lives,level,currentScore))
+        c.execute("INSERT INTO player VALUES(userName,lives,level) VALUES(?, ?, ?, ?)",
+                  (userName,lives,level))
 
-def addScore(userName,score):
-    with conn:
-        c.execute("INSERT INTO player totalScores(?, ?)",(userName,score))
 
-def updateScore(userName, lives, score):
+def updatePlayer(userName, lives, level):
     with conn:
-        c.execute("""UPDATE player SET lives = ? AND currentScore = ?
+        c.execute("""UPDATE player SET lives = ? AND level = ? 
                     WHERE userName = ?""" ,
-                    (lives,score,userName))
+                    (lives,level,userName))
 
-def addFirstLevel(userName,score):
+def getPlayer():
     with conn:
-        c.execute("INSERT INTO firstLevel(?, ?)",(userName,score))
+        c.execute("SELECT userName, lives, text FROM player WHERE )
 
-def addSecondLevel(userName,score):
-    with conn:
-        c.execute("INSERT INTO secondLevel(?, ?)",(userName,score))
-
-def addThirdLevel(userName,score):
-    with conn:
-        c.execute("INSERT INTO thirdLevel(?, ?)",(userName,score))
