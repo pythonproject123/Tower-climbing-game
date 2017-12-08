@@ -2,7 +2,7 @@ from Player import *
 import level
 import time
 from add2tables import *
-import createtables
+#import createtables
 
 black = (0, 0, 0)
 white = (255, 255, 255)
@@ -50,7 +50,7 @@ def game_intro():
         TextRect.center = ((display_width / 2), (display_height / 2))
         screen.blit(TextSurf, TextRect)
 
-        button("Username", 150, 450, 100, 50, green, bright_green, game_loop)
+        button("Start", 150, 450, 100, 50, green, bright_green, game_loop)
         button("Quit", 550, 450, 100, 50, red, bright_red, quitgame)
 
         pygame.display.update()
@@ -79,7 +79,7 @@ def game_loop():
     # Create all the levels
     level_list = [level.LevelOne(player)]
     level_list.append(level.LevelTwo(player))
-    #level_list.append(level.LevelThree(player))
+    level_list.append(level.LevelThree(player))
     level_list.append(level.LevelFour(player))
 
     # Set the current level

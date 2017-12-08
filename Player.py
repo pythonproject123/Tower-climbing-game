@@ -179,6 +179,10 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.coins = 0
         self.won = False
+        if self.level.hardmode:
+            self.health = 1
+        else:
+            self.health = 3
         self.level.reset()
 
     def getHealth(self):

@@ -16,7 +16,7 @@ def updatePlayer(userName, lives, level):
                     WHERE userName = ?""" ,
                     (lives,level,userName))
 
-def getPlayer():
+"""def getPlayer():
     with conn:
-        c.execute("SELECT userName, lives, text FROM player WHERE )
+        c.execute("SELECT userName, lives, text FROM player WHERE )"""
 

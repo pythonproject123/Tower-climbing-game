@@ -286,12 +286,12 @@ class LevelThree(Level):
                     [COIN, 750, 300],
                     [COIN, 1200, 200],
                     [COIN, 1025, 350],
-                    [COIN, 1220, 450]
+                    [COIN, 1220, 450],
                     [COIN, 1000, 250],      #fix these numbers
-                    [COIN, 850, 325]]
-                    #[COIN, , ],
-                    #[COIN, , ],
-                    #[COIN, , ]]
+                    [COIN, 850, 325],
+                    [COIN, 400, 530],
+                    [COIN, 900, 210],
+                    [COIN, 600, 480]]
 
         self.addEnemies(enemies)
         self.addCoins(lv_coins)
@@ -326,9 +326,9 @@ class LevelFour(Level):
         Level.__init__(self, player)
         Level.hardmode = False
         if self.isHardMode():
-            self.coinsNeeded(5)
+            self.coinsNeeded(10)
         else:
-            self.coinsNeeded(7)
+            self.coinsNeeded(10)
 
         self.background = pygame.image.load("level4.png").convert()
         self.background.set_colorkey((255, 255, 255))
@@ -360,6 +360,10 @@ class LevelFour(Level):
                     [COIN, 1400, 330],
                     [COIN, 1600, 260],
                     [COIN, 1470, 50],
+                    [COIN, 750, 300],
+                    [COIN, 1300, 530],
+                    [COIN, 1500, 460],
+                    [COIN, 1000, 175],
                     [COIN, 1250, 50]]
 
         self.addEnemies(enemies)
