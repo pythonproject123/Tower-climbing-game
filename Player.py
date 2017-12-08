@@ -179,6 +179,11 @@ class Player(pygame.sprite.Sprite):
     def collectCoin(self):
         self.coins += 1
 
+    def reset(self):
+        self.coins = 0
+        self.won = False
+        self.level.reset()
+
     def getHealth(self):
         return self.health
     def getCoins(self):

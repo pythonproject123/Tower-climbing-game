@@ -11,8 +11,6 @@ def main():
     size = [800, 600]
     screen = pygame.display.set_mode(size)
 
-    #pygame.display.set_caption("Platformer with sprite sheets")
-
     # Create the player
     player = Player('test')
 
@@ -53,17 +51,6 @@ def main():
                 time.sleep(2)
                 done = True
 
-            if  player.won:
-                pygame.font.init()
-                font = pygame.font.SysFont('Comic Sans MS', 30)
-                textSurf = font.render('Well Done!', True, (0, 0, 0))
-                textRect = textSurf.get_rect()
-                textRect.center = (400, 300)
-                screen.blit(textSurf, textRect)
-                pygame.display.update()
-                time.sleep(2)
-                done = True
-
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_LEFT:
                     player.go_left()
@@ -93,14 +80,16 @@ def main():
             player.rect.left = 120
             current_level.shift_world(diff)
 
-        # If the player gets to the end of the level, go to the next level
-        current_position = player.rect.x + current_level.world_shift
-        if current_position < current_level.level_limit:
+        # If the player wins the level, go to the next level
+        if player.won:
             player.rect.x = 120
+            player.reset()
             if current_level_no < len(level_list) - 1:
                 current_level_no += 1
                 current_level = level_list[current_level_no]
                 player.level = current_level
+            else:
+                done = True
 
         # ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
         current_level.draw(screen)
@@ -116,7 +105,6 @@ def main():
     # Be IDLE friendly. If you forget this line, the program will 'hang'
     # on exit.
     pygame.quit()
-
 
 if __name__ == "__main__":
     main()

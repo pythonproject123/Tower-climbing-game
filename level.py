@@ -144,6 +144,13 @@ class Level:
             block.player = self.player
             self.platform_list.add(block)
 
+    def reset(self):
+        self.enemy_list = pygame.sprite.Group()
+        self.platform_list = pygame.sprite.Group()
+        self.health_bar = pygame.sprite.Group()
+        self.coins = pygame.sprite.Group()
+        self.coins_needed = pygame.sprite.Group()
+
 
 class LevelOne(Level):
     def __init__(self, player):
